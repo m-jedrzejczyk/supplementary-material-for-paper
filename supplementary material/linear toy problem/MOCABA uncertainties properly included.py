@@ -1,14 +1,14 @@
 import numpy as np
 
 np.random.seed(1000)
-# Experimental measurements (adata for assimilation)
-experiments = np.array([163.1, 73.2, 115.7, 107.9])
+# Experimental measurements (data for assimilation)
+experiments = np.array([163.6, 74.2, 116.7, 108.4])
 # Sampling model input parameters designated for calibration
-a = np.random.normal(35, 5, 1000)
-b = np.random.normal(15, 3, 1000)
+a = np.random.normal(35, 7, 1000)
+b = np.random.normal(15, 5, 1000)
 sampled_input_parameters = np.column_stack((a, b))
 # Error propagation to experimental covariance matrix
-cd = np.random.multivariate_normal(mean=[8,4], cov=[[1, 0.5],[0.5,1]], size=1000)
+cd = np.random.multivariate_normal(mean=[8,4], cov=[[0.5**2, 0.5**3], [0.5**3, 0.5**2]], size=1000)
 measurement_error1=np.random.normal(0,0.1,1000)
 measurement_error2=np.random.normal(0,0.1,1000)
 measurement_error3=np.random.normal(0,0.1,1000)
@@ -56,9 +56,3 @@ posterior_bench_mean = prior_mean + np.dot(covB.T, np.dot(np.linalg.inv(covB+cov
 # Print posterior means and standard deviations
 print(posterior_appl_mean)
 print(np.sqrt(np.diag(posterior_appl_cov)))
-
-
-
-
-
-
