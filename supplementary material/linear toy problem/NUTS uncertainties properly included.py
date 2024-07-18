@@ -18,10 +18,6 @@ e4 = cd[:, 0] + cd[:, 1] + measurement_error4
 stack_error_propagation = np.vstack((e1, e2, e3, e4))
 measurement_covariance = np.cov(stack_error_propagation)
 
-measurement_covariance = np.array([[ 0.01,  0,  0,  0],
-                [ 0,  0.01,   0,  0],
-                [ 0,  0, 0.01,  0],
-                [ 0,  0,  0,  0.01]])
 """
 # correct covariance matrix, the same as "measurement_covariance" (within Monte Carlo uncertainty)
 cov = np.array([[0.76025151, 1.12510038, 1.50052684, 0.75022842],
