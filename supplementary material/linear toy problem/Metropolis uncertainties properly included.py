@@ -3,10 +3,10 @@ import pymc as pm
 import arviz as az
 
 #observed data (experimental measurements)
-data = [163.1, 73.2, 115.7, 107.9]
+data = [163.6, 74.2, 116.7, 108.4]
 
 #covariance matrix with propagated uncertainty from UMIP
-cd = np.random.multivariate_normal(mean=[8,4], cov=[[1, 0.5],[0.5,1]], size=1000000)
+cd = np.random.multivariate_normal(mean=[8,4], cov=[[0.5**2, 0.5**3], [0.5**3, 0.5**2]], size=1000000)
 measurement_error1=np.random.normal(0,0.1,1000000)
 measurement_error2=np.random.normal(0,0.1,1000000)
 measurement_error3=np.random.normal(0,0.1,1000000)
@@ -20,15 +20,15 @@ measurement_covariance = np.cov(stack_error_propagation)
 
 """
 # correct covariance matrix, the same as "measurement_covariance" (within Monte Carlo uncertainty)
-cov = np.array([[ 3.02539885,  4.52413505,  6.03136712,  3.01458095],
-                [ 4.52413505,  7.0467328,   9.04926106,  4.52268433],
-                [ 6.03136712,  9.04926106, 12.07370549,  6.02958629],
-                [ 3.01458095,  4.52268433,  6.02958629,  3.02373706]])
+cov = np.array([[0.76025151, 1.12510038, 1.50052684, 0.75022842],
+                [1.12510038, 1.75971513, 2.25022741, 1.12506701],
+                [1.50052684, 2.25022741, 3.01108469, 1.50051906],
+                [0.75022842, 1.12506701, 1.50051906, 0.76024915]])
 # covariance matrix with uncertainties only propagated to the diagonal
-cov = np.array([[ 3.02539885,  0,  0,  0],
-                [ 0,  7.0467328,   0,  0],
-                [ 0,  0, 12.07370549,  0],
-                [ 0,  0,  0,  3.02373706]])
+cov = np.array([[ 0.76025151,  0,  0,  0],
+                [ 0,  1.75971513,   0,  0],
+                [ 0,  0, 3.01108469,  0],
+                [ 0,  0,  0,  0.76024915]])
 # uncertainties from uncalibrated model input parameters completely neglected
 cov = np.array([[ 0.01,  0,  0,  0],
                 [ 0,  0.01,   0,  0],
@@ -38,8 +38,8 @@ cov = np.array([[ 0.01,  0,  0,  0],
 
 with pm.Model() as basic_model:
     # Priors for unknown model parameters
-    a = pm.Normal("a", mu=35, sigma=5)
-    b = pm.Normal("b", mu=15, sigma=3)
+    a = pm.Normal("a", mu=35, sigma=7)
+    b = pm.Normal("b", mu=15, sigma=5)
     # Mathematical models
     mu = [3*a+2*b+8+4, a+b+2*8+4, a+4*b+2*8+2*4, 2*a + b + 8+4]
     # Distribution of observed data, including propagated uncertainties
