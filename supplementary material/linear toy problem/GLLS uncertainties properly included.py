@@ -3,18 +3,18 @@ from scipy.stats import multivariate_normal
 from numpy.linalg import inv
 
 # True parameter values
-a_true, b_true, c_true, d_true = 42, 13, 7, 4
+a_true, b_true, c_true, d_true = 42, 13, 7.5, 4
 
 # Prior means and standard deviations for a, b
 prior_means = np.array([35, 15], dtype=np.float64)
-prior_std_devs = np.array([5, 3], dtype=np.float64)
+prior_std_devs = np.array([7, 5], dtype=np.float64)
 prior_covariance = np.diag(prior_std_devs**2)
 # Experimental measurements - assimilated data
-observed_data = np.array([163.1, 73.2, 115.7, 107.9])
+observed_data = np.array([163.6, 74.2, 116.7, 108.4])
 
 # Error propagation of c,d to experimental covariance matrix
 # To investigate improper treatment of uncalibrated model input parameters modify the covariance matrix
-cd = np.random.multivariate_normal(mean=[8,4], cov=[[1, 0.5],[0.5,1]], size=1000000)
+cd = np.random.multivariate_normal(mean=[8,4], cov=[[0.5**2, 0.5**3], [0.5**3, 0.5**2]], size=1000000)
 measurement_error1=np.random.normal(0,0.1,1000000)
 measurement_error2=np.random.normal(0,0.1,1000000)
 measurement_error3=np.random.normal(0,0.1,1000000)
